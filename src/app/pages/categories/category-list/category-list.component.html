@@ -1,1 +1,90 @@
-<p>categorie-list works!</p>
+<nav class="mb-5">
+  <ol class="breadcrumb">
+    <li class="breadcrumb-item">
+      <a routerLink="/">Home</a>
+    </li>
+    <li class="breadcrumb-item active">
+      Categorias
+    </li>
+  </ol>
+</nav>
+
+<div class="row mb-4">
+  <div class="col-md">
+    <h1 class="h2 border-left pl-2">
+      Categorias
+    </h1>
+  </div>
+  <div class="col-md">
+    <button routerLink="new" class="btn btn-success float-right">
+      + Nova Categoria
+    </button>
+  </div>
+</div>
+
+<table class="table table-hover table-bordered">
+  <thead class="thead-dark">
+    <tr>
+      <th>Categoria</th>
+      <th>Ações</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>
+        <strong>
+          Lazer
+        </strong>
+        <br><small>Cinema, parque, praia, etc...</small>
+      </td>
+      <td>
+        <div class="btn-group float-right py-1">
+          <button [routerLink]="[12, 'edit']" class="btn btn-outline-primary btn-sm">
+            Editar
+          </button>
+          <button class="btn btn-outline-danger btn-sm ml-2">
+            Excluir
+          </button>
+        </div>
+      </td>
+    </tr>
+
+    <tr>
+      <td>
+        <strong>
+          Lazer
+        </strong>
+        <br><small>Cinema, parque, praia, etc...</small>
+      </td>
+      <td>
+        <div class="btn-group float-right py-1">
+          <button [routerLink]="[12, 'edit']" class="btn btn-outline-primary btn-sm">
+            Editar
+          </button>
+          <button class="btn btn-outline-danger btn-sm ml-2">
+            Excluir
+          </button>
+        </div>
+      </td>
+    </tr>
+
+    <tr>
+      <td>
+        <strong>
+          Lazer
+        </strong>
+        <br><small>Cinema, parque, praia, etc...</small>
+      </td>
+      <td>
+        <div class="btn-group float-right py-1">
+          <button [routerLink]="[12, 'edit']" class="btn btn-outline-primary btn-sm">
+            Editar
+          </button>
+          <button class="btn btn-outline-danger btn-sm ml-2">
+            Excluir
+          </button>
+        </div>
+      </td>
+    </tr>
+  </tbody>
+</table>
