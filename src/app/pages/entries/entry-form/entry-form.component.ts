@@ -23,6 +23,44 @@ export class EntryFormComponent implements OnInit, AfterContentChecked {
   submittingForm: boolean = false;
   entry: Entry  = new Entry();
 
+  imaskConfig = {
+    mask: Number,
+    scale: 2,
+    thousandsSeparator: '',
+    padFractionalZeros: true,
+    normalizeZeros: true,
+    radix: ','
+  };
+
+  ptBR = {
+    firstDayOfWeek: 0,
+
+    dayNames: [
+      'Domingo', 'Segunda', 'Terça', 'Quarta', 'Quinta', 'Sexta', 'Sábado'
+    ],
+
+    dayNamesShort: [
+      'Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sab'
+    ],
+
+    dayNamesMin: [
+      'Do', 'Se', 'Te', 'Qu', 'Qu', 'Se', 'Sa'
+    ],
+
+    monthNames: [
+      'Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho',
+      'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro'
+    ],
+
+    monthNamesShort: [
+      'Jan', 'Fev', 'Mar', 'Abr', 'Mai',
+      'Jun', 'Jul', 'Ago', 'Set', 'Out', 'Nov', 'Dez'
+    ],
+
+    today: 'Hoje',
+    clear: 'Limpar'
+  };
+
   constructor(
     private entryService: EntryService,
     private route: ActivatedRoute,
@@ -59,14 +97,14 @@ export class EntryFormComponent implements OnInit, AfterContentChecked {
 
   private buildEntryForm() {
     this.entryForm = this.formBuilder.group({
-      id: [null],
-      name: [null, [Validators.required, Validators.minLength(2)]],
-      description: [null],
-      type: [null, [Validators.required]],
-      amount: [null, [Validators.required]],
-      date: [null, [Validators.required]],
-      paid: [null, [Validators.required]],
-      categoryId: [null, [Validators.required]]
+      id: [''],
+      name: ['', [Validators.required, Validators.minLength(2)]],
+      description: [''],
+      type: ['', [Validators.required]],
+      amount: ['', [Validators.required]],
+      date: ['', [Validators.required]],
+      paid: ['', [Validators.required]],
+      categoryId: ['', [Validators.required]]
     })
   }
 

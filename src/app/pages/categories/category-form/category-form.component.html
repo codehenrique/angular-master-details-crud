@@ -20,7 +20,7 @@
   </div>
   <div class="col-sm">
     <button routerLink="/categories" class="btn btn-outline-secondary float-right">
-      << Voltar
+      <i class="fa fa-arrow-left"></i>
     </button>
   </div>
 </div>
@@ -44,10 +44,10 @@
         <div class="text-danger"
           *ngIf="categoryForm.get('name').invalid && categoryForm.get('name').touched"
         >
-          <div *ngIf="categoryForm.get['name'].errors.required">
+          <div *ngIf="categoryForm.get('name').hasError('required')">
             Dado obrigatorio!
           </div>
-          <div *ngIf="categoryForm.get['name'].errors.minlength">
+          <div *ngIf="categoryForm.get('name').hasError('minlength')">
               O nome deve possuir no mínimo 2 caracteres!
           </div>
         </div>

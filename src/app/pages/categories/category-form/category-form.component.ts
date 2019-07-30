@@ -1,5 +1,5 @@
 import { Component, OnInit, AfterContentChecked } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Validators, FormBuilder, FormGroup } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 
 import { Category } from '../shared/category.model';
@@ -59,9 +59,9 @@ export class CategoryFormComponent implements OnInit, AfterContentChecked {
 
   private buildCategoryForm() {
     this.categoryForm = this.formBuilder.group({
-      id: [null],
-      name: [null, [Validators.required, Validators.minLength(2)]],
-      description: [null]
+      id: [''],
+      name: ['', [Validators.required, Validators.minLength(2)]],
+      description: ['']
     })
   }
 

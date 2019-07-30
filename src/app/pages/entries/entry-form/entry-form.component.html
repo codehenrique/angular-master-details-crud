@@ -20,62 +20,105 @@
   </div>
   <div class="col-md-3">
     <button routerLink="/entries" class="btn btn-outline-secondary float-right">
-      << Voltar
+      <i class="fa fa-arrow-left"></i>
     </button>
   </div>
 </div>
 
-
 <form [formGroup]="entryForm" (submit)="submitForm()">
 
-<div class="card">
-  <div class="card-header">
-    Informações sobre o Lançamento
-  </div>
+  <div class="card">
+    <div class="card-header">
+      Informações sobre o Lançamento
+    </div>
 
-  <div class="card-body">
-    <div class="form-row">
-      <div class="form-group col-md-4">
-        <label for="name">Nome</label>
-        <input type="text" class="form-control" id="name"
-          formControlName="name"
-        >
+    <!-- Campo Lançamento -->
+    <div class="card-body">
+      <div class="form-row">
+        <div class="form-group col-md-2">
+          <label for="type">Tipo</label>
+          <select id="type" formControlName="type" class="form-control">
+            <option value="expense">Despesa</option>
+            <option value="revenue">Receita</option>
+          </select>
 
-        <div class="text-danger"
-          *ngIf="entryForm.get('name').invalid && entryForm.get('name').touched"
-        >
-          <div *ngIf="entryForm.get['name'].errors.required">
-            Dado obrigatorio!
+          <div class="text-danger" *ngIf="entryForm.get('type').invalid && entryForm.get('type').touched">
+            <div *ngIf="entryForm.get('type').hasError('required')">
+              Dado obrigatorio!
+            </div>
           </div>
-          <div *ngIf="entryForm.get['name'].errors.minlength">
+        </div>
+
+        <div class="form-group col-md-5">
+          <label for="name">Lançamento</label>
+          <input type="text" class="form-control" id="name" formControlName="name">
+
+          <div class="text-danger" *ngIf="entryForm.get('name').invalid && entryForm.get('name').touched">
+            <div *ngIf="entryForm.get('name').hasError('required')">
+              Dado obrigatorio!
+            </div>
+            <div *ngIf="entryForm.get('name').hasError('minlength')">
               O nome deve possuir no mínimo 2 caracteres!
+            </div>
+          </div>
+        </div>
+
+        <div class="form-group col-md-3">
+          <label for="amount">Valor</label>
+
+          <div class="input-group">
+            <div class="input-group-prepend">
+              <div class="input-group-text">R$</div>
+            </div>
+            <input type="text" class="form-control text-right" id="amount" formControlName="amount"
+              [imask]="imaskConfig">
+          </div>
+
+          <div class="text-danger" *ngIf="entryForm.get('amount').invalid && entryForm.get('amount').touched">
+            <div *ngIf="entryForm.get('amount').hasError('required')">
+              Dado obrigatorio!
+            </div>
+          </div>
+        </div>
+
+        <div class="form-group col-md-2">
+          <label for="date">Data</label>
+
+          <p-calendar id="date" formControlName="date" inputStyleClass="form-control text-center" dataType="string"
+            dateFormat="dd/mm/yy" [locale]="ptBR" [showButtonBar]="true">
+          </p-calendar>
+
+          <div class="text-danger" *ngIf="entryForm.get('date').invalid && entryForm.get('date').touched">
+            <div *ngIf="entryForm.get('date').hasError('required')">
+              Dado obrigatorio!
+            </div>
           </div>
         </div>
       </div>
 
-     <div class="form-group col-md-8">
-      <label for="description">Descrição</label>
-      <input type="text" class="form-control" id="description"
-      formControlName="description"
-      >
-     </div>
+      <div class="form-row">
+
+        <!-- Campo Descrição -->
+        <div class="form-group col-md-8">
+          <label for="description">Descrição</label>
+          <input type="text" class="form-control" id="description" formControlName="description">
+        </div>
+      </div>
     </div>
   </div>
-</div>
 
-<div class="alert alert-danger mt-4" *ngIf="serverErrorMessages">
-  <strong>Erro no servidor:</strong>
-  <ul>
-    <li *ngFor="let error of serverErrorMessages">
-      {{ error }}
-    </li>
-  </ul>
-</div>
+  <div class="alert alert-danger mt-4" *ngIf="serverErrorMessages">
+    <strong>Erro no servidor:</strong>
+    <ul>
+      <li *ngFor="let error of serverErrorMessages">
+        {{ error }}
+      </li>
+    </ul>
+  </div>
 
-<button type="submit" class="btn btn-primary btn-lg float-right mt-3"
-  [disabled]="submittingForm || entryForm.invalid"
->
-  Salvar
-</button>
+  <button type="submit" class="btn btn-primary btn-lg float-right mt-3"
+    [disabled]="submittingForm || entryForm.invalid">
+    Salvar
+  </button>
 
 </form>
