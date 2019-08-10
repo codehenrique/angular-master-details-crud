@@ -38,8 +38,7 @@
         <div class="form-group col-md-2">
           <label for="type">Tipo</label>
           <select id="type" formControlName="type" class="form-control">
-            <option value="expense">Despesa</option>
-            <option value="revenue">Receita</option>
+            <option *ngFor="let option of typeOptions" [value]="option.value">{{ option.text }}</option>
           </select>
 
           <div class="text-danger" *ngIf="entryForm.get('type').invalid && entryForm.get('type').touched">
@@ -97,9 +96,42 @@
       </div>
 
       <div class="form-row">
+        <!-- Campo Pago -->
+        <div class="form-group col-md-2">
+          <label for="paid">Pago</label>
+          <div class="btn-group">
+            <label (click)="entryForm.get('paid').setValue(true)" [class.active]="entryForm.get('paid').value == true"
+              class="btn btn-outline-info mr-1">
+              Pago
+            </label>
+            <label (click)="entryForm.get('paid').setValue(false)" [class.active]="entryForm.get('paid').value == false"
+              class="btn btn-outline-danger">
+              Pendente
+            </label>
+          </div>
+        </div>
+
+        <div class="text-danger" *ngIf="entryForm.get('paid').invalid && entryForm.get('paid').touched">
+          <div *ngIf="entryForm.get('paid').hasError('paid')">
+            Dado obrigatorio!
+          </div>
+        </div>
+
+        <div class="form-group col-md-3">
+          <label for="categoryId">Categoria</label>
+          <select id="categoryId" formControlName="categoryId" class="form-control">
+            <option *ngFor="let category of categories"  [value]="category.id">{{ category.name }}</option>
+          </select>
+
+          <div class="text-danger" *ngIf="entryForm.get('categoryId').invalid && entryForm.get('categoryId').touched">
+            <div *ngIf="entryForm.get('categoryId').hasError('required')">
+              Dado obrigatorio!
+            </div>
+          </div>
+        </div>
 
         <!-- Campo Descrição -->
-        <div class="form-group col-md-8">
+        <div class="form-group col-md-7">
           <label for="description">Descrição</label>
           <input type="text" class="form-control" id="description" formControlName="description">
         </div>

@@ -1,3 +1,4 @@
+import { CategoryService } from './../../categories/shared/category.service';
 import { Component, OnInit, AfterContentChecked } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -8,6 +9,7 @@ import { EntryService } from '../shared/entry.service';
 import { switchMap } from 'rxjs/operators';
 
 import { toastr } from 'toastr';
+import { Category } from '../../categories/shared/category.model';
 
 @Component({
   selector: 'app-entry-form',
@@ -21,7 +23,8 @@ export class EntryFormComponent implements OnInit, AfterContentChecked {
   pageTitle: string;
   serverErrorMessages: string[] = null;
   submittingForm: boolean = false;
-  entry: Entry  = new Entry();
+  entry: Entry = new Entry();
+  categories: Array<Category>;
 
   imaskConfig = {
     mask: Number,
@@ -65,13 +68,15 @@ export class EntryFormComponent implements OnInit, AfterContentChecked {
     private entryService: EntryService,
     private route: ActivatedRoute,
     private router: Router,
-    private formBuilder: FormBuilder
+    private formBuilder: FormBuilder,
+    private CategoryService: CategoryService
   ) { }
 
   ngOnInit() {
     this.setCurrentAction();
     this.buildEntryForm();
     this.loadEntry();
+    this.loadCategories();
   }
 
   ngAfterContentChecked() {
@@ -86,6 +91,16 @@ export class EntryFormComponent implements OnInit, AfterContentChecked {
       : this.updateEntry()
   }
 
+  get typeOptions(): Array<any> {
+    return Object.entries(Entry.types).map(
+      ([value, text]) => {
+        return {
+          text: text,
+          value: value
+        }
+      }
+    )
+  }
 
   // PRIVATE METHODS
 
@@ -100,10 +115,10 @@ export class EntryFormComponent implements OnInit, AfterContentChecked {
       id: [''],
       name: ['', [Validators.required, Validators.minLength(2)]],
       description: [''],
-      type: ['', [Validators.required]],
+      type: ['expense', [Validators.required]],
       amount: ['', [Validators.required]],
       date: ['', [Validators.required]],
-      paid: ['', [Validators.required]],
+      paid: [true, [Validators.required]],
       categoryId: ['', [Validators.required]]
     })
   }
@@ -113,14 +128,20 @@ export class EntryFormComponent implements OnInit, AfterContentChecked {
       this.route.paramMap.pipe(
         switchMap(params => this.entryService.getById(+params.get('id')))
       )
-      .subscribe(
-        (entry) => {
-          this.entry = entry;
-          this.entryForm.patchValue(entry)
-        },
-        (error) => alert('Ocorreu um erro no servidor, tente mais tarde.')
-      )
+        .subscribe(
+          (entry) => {
+            this.entry = entry;
+            this.entryForm.patchValue(entry)
+          },
+          (error) => alert('Ocorreu um erro no servidor, tente mais tarde.')
+        )
     }
+  }
+
+  private loadCategories() {
+    this.CategoryService.getAll().subscribe(
+      categories => this.categories = categories
+    )
   }
 
   private setPageTitle() {
@@ -161,7 +182,7 @@ export class EntryFormComponent implements OnInit, AfterContentChecked {
     toastr.success('Solicitação processada com sucesso!');
 
     this.router.navigateByUrl(
-      'entries', {skipLocationChange: true}
+      'entries', { skipLocationChange: true }
     ).then(
       () => this.router.navigate(['entries', entry.id, 'edit'])
     );
